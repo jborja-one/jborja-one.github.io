@@ -1,5 +1,5 @@
 ///
-/// Paradigm Shift by HTML5 UP
+/// Dimension by HTML5 UP
 /// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
@@ -14,22 +14,18 @@
 		}
 
 		> .fields  {
-			$gutter: _size(form-gutter);
+			$gutter: (_size(element-margin) * 0.75);
 
 			@include vendor('display', 'flex');
 			@include vendor('flex-wrap', 'wrap');
-			margin: ($gutter * -1) 0 _size(element-margin) ($gutter * -1);
 			width: calc(100% + #{$gutter * 2});
+			margin: ($gutter * -1) 0 _size(element-margin) ($gutter * -1);
 
 			> .field {
 				@include vendor('flex-grow', '0');
 				@include vendor('flex-shrink', '0');
 				padding: $gutter 0 0 $gutter;
 				width: calc(100% - #{$gutter * 1});
-
-				> :last-child {
-					margin-bottom: 0;
-				}
 
 				&.half {
 					width: calc(50% - #{$gutter * 0.5});
@@ -49,8 +45,8 @@
 			> .fields {
 				$gutter: (_size(element-margin) * 0.75);
 
-				margin: ($gutter * -1) 0 _size(element-margin) ($gutter * -1);
 				width: calc(100% + #{$gutter * 2});
+				margin: ($gutter * -1) 0 _size(element-margin) ($gutter * -1);
 
 				> .field {
 					padding: $gutter 0 0 $gutter;
@@ -72,17 +68,32 @@
 		}
 	}
 
+	label {
+		color: _palette(fg-bold);
+		display: block;
+		font-size: 0.8rem;
+		font-weight: _font(weight);
+		letter-spacing: _font(letter-spacing);
+		line-height: 1.5;
+		margin: 0 0 (_size(element-margin) * 0.5) 0;
+		text-transform: uppercase;
+	}
+
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
 	input[type="tel"],
-	input[type="search"],
-	input[type="url"],
 	select,
 	textarea {
 		@include vendor('appearance', 'none');
+		@include vendor('transition', (
+			'border-color #{_duration(transition)} ease-in-out',
+			'box-shadow #{_duration(transition)} ease-in-out',
+			'background-color #{_duration(transition)} ease-in-out'
+		));
+		background-color: transparent;
 		border-radius: _size(border-radius);
-		border: solid 2px _palette(border);
+		border: solid _size(border-width) _palette(border);
 		color: inherit;
 		display: block;
 		outline: 0;
@@ -95,43 +106,24 @@
 		}
 
 		&:focus {
-			border-color: _palette(accent-alt);
+			background: _palette(border-bg);
+			border-color: _palette(fg-bold);
+			box-shadow: 0 0 0 _size(border-width) _palette(fg-bold);
 		}
-	}
-
-	label {
-		color: _palette(fg-bold);
-		display: block;
-		font-family: _font(family-heading);
-		font-size: 0.75rem;
-		font-weight: _font(weight-heading-light);
-		letter-spacing: _font(kerning-heading);
-		line-height: 1.75;
-		margin: 0 0 (_size(element-margin) * 0.5) 0;
-		text-transform: uppercase;
-	}
-
-	input[type="text"],
-	input[type="password"],
-	input[type="email"],
-	input[type="tel"],
-	input[type="search"],
-	input[type="url"] {
-		height: _size(element-height);
 	}
 
 	select {
 		background-image: svg-url("<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' preserveAspectRatio='none' viewBox='0 0 40 40'><path d='M9.4,12.3l10.4,10.4l10.4-10.4c0.2-0.2,0.5-0.4,0.9-0.4c0.3,0,0.6,0.1,0.9,0.4l3.3,3.3c0.2,0.2,0.4,0.5,0.4,0.9 c0,0.4-0.1,0.6-0.4,0.9L20.7,31.9c-0.2,0.2-0.5,0.4-0.9,0.4c-0.3,0-0.6-0.1-0.9-0.4L4.3,17.3c-0.2-0.2-0.4-0.5-0.4-0.9 c0-0.4,0.1-0.6,0.4-0.9l3.3-3.3c0.2-0.2,0.5-0.4,0.9-0.4S9.1,12.1,9.4,12.3z' fill='#{_palette(border)}' /></svg>");
-		background-position: calc(100% - 1rem) center;
-		background-repeat: no-repeat;
 		background-size: 1.25rem;
+		background-repeat: no-repeat;
+		background-position: calc(100% - 1rem) center;
 		height: _size(element-height);
 		padding-right: _size(element-height);
 		text-overflow: ellipsis;
 
 		option {
-			background-color: _palette(bg);
 			color: _palette(fg);
+			background: _palette(bg);
 		}
 
 		&:focus {
@@ -143,6 +135,13 @@
 		&::-ms-expand {
 			display: none;
 		}
+	}
+
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	select {
+		height: _size(element-height);
 	}
 
 	textarea {
@@ -161,47 +160,52 @@
 
 		& + label {
 			@include icon(false, solid);
+			@include vendor('user-select', 'none');
 			color: _palette(fg);
 			cursor: pointer;
 			display: inline-block;
-			font-family: _font(family);
-			font-size: 1rem;
+			font-size: 0.8rem;
 			font-weight: _font(weight);
-			letter-spacing: _font(kerning);
-			padding-left: (_size(element-height) * 0.6) + 0.875rem;
-			padding-right: 0.875rem;
+			margin: 0 0 (_size(element-margin) * 0.25) 0;
+			padding-left: (_size(element-height) * 0.6) + 1rem;
+			padding-right: 0.75rem;
 			position: relative;
-			text-transform: none;
 
 			&:before {
+				@include vendor('transition', (
+					'border-color #{_duration(transition)} ease-in-out',
+					'box-shadow #{_duration(transition)} ease-in-out',
+					'background-color #{_duration(transition)} ease-in-out'
+				));
 				border-radius: _size(border-radius);
-				border: solid 2px _palette(border);
+				border: solid _size(border-width) _palette(border);
 				content: '';
 				display: inline-block;
-				font-size: 0.8rem;
-				height: (_size(element-height) * 0.75);
+				height: (_size(element-height) * 0.6);
 				left: 0;
-				line-height: (_size(element-height) * 0.75);
+				line-height: (_size(element-height) * 0.6);
+				//line-height: calc(#{_size(element-height) * 0.6} + 0em);
 				position: absolute;
 				text-align: center;
-				top: (_size(element-height) * -0.05);
-				width: (_size(element-height) * 0.75);
+				top: -0.15rem;
+				width: (_size(element-height) * 0.6);
 			}
 		}
 
 		&:checked + label {
 			&:before {
-				content: '\f00c';
-				background-color: _palette(accent);
-				border-color: _palette(accent);
+				background: _palette(fg-bold) !important;
+				border-color: _palette(fg-bold) !important;
 				color: _palette(bg);
+				content: '\f00c';
 			}
 		}
 
 		&:focus + label {
 			&:before {
-				border-color: _palette(accent);
-				box-shadow: 0 0 0 1px _palette(accent);
+				background: _palette(border-bg);
+				border-color: _palette(fg-bold);
+				box-shadow: 0 0 0 _size(border-width) _palette(fg-bold);
 			}
 		}
 	}
@@ -223,47 +227,26 @@
 	}
 
 	::-webkit-input-placeholder {
-		opacity: 1.0;
 		color: _palette(fg-light) !important;
+		opacity: 1.0;
 	}
 
 	:-moz-placeholder {
-		opacity: 1.0;
 		color: _palette(fg-light) !important;
+		opacity: 1.0;
 	}
 
 	::-moz-placeholder {
-		opacity: 1.0;
 		color: _palette(fg-light) !important;
+		opacity: 1.0;
 	}
 
 	:-ms-input-placeholder {
-		opacity: 1.0;
 		color: _palette(fg-light) !important;
+		opacity: 1.0;
 	}
 
-	@include breakpoint('<=small') {
-		label {
-			font-size: 0.675rem;
-		}
-
-		input[type="checkbox"],
-		input[type="radio"] {
-			& + label {
-				font-size: 1rem;
-			}
-		}
-	}
-
-	@include breakpoint('<=xxsmall') {
-		label {
-			font-size: 0.675rem;
-		}
-
-		input[type="checkbox"],
-		input[type="radio"] {
-			& + label {
-				font-size: 1rem;
-			}
-		}
+	.formerize-placeholder {
+		color: _palette(fg-light) !important;
+		opacity: 1.0;
 	}
